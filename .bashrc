@@ -133,3 +133,7 @@ unset __conda_setup
 # <<< conda init <<<
 
 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/bin/java
+
+if [ -f ~/.bash_aliases ]; then
+. ~/.bash_aliases
+fi
