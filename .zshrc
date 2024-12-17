@@ -14,7 +14,8 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 
 # Powerlevel10k Configuration
-source ~/powerlevel10k/powerlevel10k.zsh-theme
+source ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k/powerlevel10k.zsh-theme
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
@@ -47,3 +48,8 @@ if [[ -n $SSH_CONNECTION ]]; then
 else
     export EDITOR='nvim'
 fi
+
+# Go configuration
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:/usr/local/go/bin
