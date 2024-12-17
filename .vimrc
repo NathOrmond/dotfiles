@@ -56,8 +56,10 @@ set scrolloff=8                   " Keep 8 lines below and above cursor
 set sidescrolloff=15             " Keep 15 columns to the left and right of cursor
 set backspace=indent,eol,start   " Make backspace behave normally
 set matchpairs+=<:>              " Add angle brackets to match pairs
-nnoremap j gj                     " Move by visual line
-nnoremap k gk                     " Move by visual line
+
+"nnoremap j gj                     " Move by visual line
+"nnoremap k gk                     " Move by visual line
+
 " Easy window navigation
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
