@@ -1,137 +1,117 @@
-runtime! debian.vim
-syntax on
-set background=dark
+""" Enhanced vim Configuration """
 
-" Uncomment the following to have Vim load indentation rules and plugins
-" according to the detected filetype.
-if has("autocmd")
-  filetype plugin indent on
-endif
+""" Basic Settings """
+set nocompatible                    " Don't try to be vi compatible
+syntax on                           " Enable syntax highlighting
+set encoding=utf-8                  " Set UTF-8 encoding
+set background=dark                " Dark background colors
+set visualbell                      " Visual bell instead of beeping
+set mouse=a                         " Enable mouse in all modes
+set clipboard=unnamed               " Use system clipboard
+set history=1000                    " Store more command history
+set undolevels=1000                " Store more undo levels
+set autoread                        " Reload files changed outside vim
 
-"set showcmd		" Show (partial) command in status line.
-set showmatch		" Show matching brackets.
-"set ignorecase		" Do case insensitive matching
-"set smartcase		" Do smart case matching
-"set incsearch		" Incremental search
-set autowrite		" Automatically save before commands like :next and :make
-"set hidden		" Hide buffers when they are abandoned
-set mouse=a		" Enable mouse usage (all modes)
-
-" Source a global configuration file if available
-if filereadable("/etc/vim/vimrc.local")
-  source /etc/vim/vimrc.local
-endif
-
-
-filetype plugin indent on
-" show existing tab with 4 spaces width
-set tabstop=4
-" when indenting with '>', use 4 spaces width
-set shiftwidth=4
-" On pressing tab, insert 4 spaces
-set expandtab
-
-" turn relative line numbers on
-:set relativenumber
-:set rnu
-
-" Don't try to be vi compatible
-set nocompatible
-
-" Helps force plugins to load correctly when it is turned back on below
-filetype off
-
+""" Plugin Management """
+filetype off                        " Required for plugin initialization
 " TODO: Load plugins here (pathogen or vundle)
+filetype plugin indent on           " Enable file type detection and plugins
 
-" Turn on syntax highlighting
-syntax on
+""" Visual Settings """
+set number relativenumber           " Show hybrid line numbers
+set ruler                          " Show file position
+set cursorline                     " Highlight current line
+set laststatus=2                  " Always show status bar
+set showmode                       " Show current mode
+set showcmd                        " Show command in bottom bar
+set ttyfast                        " Faster redrawing
+set t_Co=256                       " 256 color terminal support
+set signcolumn=yes                " Always show sign column
+set colorcolumn=80                " Show column boundary
+set list                          " Show invisible characters
+set listchars=tab:▸\ ,eol:¬,trail:·,extends:>,precedes:<  " Characters for visualizing whitespace
 
-" For plugins to load correctly
-filetype plugin indent on
+""" Indentation and Whitespace """
+set autoindent                      " Auto-indent new lines
+set smartindent                     " Smart auto-indenting
+set tabstop=4                      " Width of tab character
+set softtabstop=4                  " Backspace deletes pseudo-tabs
+set shiftwidth=4                  " Width of auto-indentation
+set expandtab                      " Use spaces instead of tabs
+set wrap                           " Wrap lines
+set textwidth=80                  " Text width before wrapping
+set formatoptions=tcqrn1          " Text formatting options
+set noshiftround                  " Don't round indent to shiftwidth
 
-" TODO: Pick a leader key
-" let mapleader = ","
+""" Search Settings """
+set hlsearch                       " Highlight search results
+set incsearch                      " Incremental search
+set ignorecase                    " Case insensitive search
+set smartcase                     " Case sensitive if uppercase present
+set showmatch                     " Show matching brackets
+set gdefault                      " Use 'g' flag by default with :s/foo/bar/
 
-" Security
-set modelines=0
+""" Navigation and Movement """
+set scrolloff=8                   " Keep 8 lines below and above cursor
+set sidescrolloff=15             " Keep 15 columns to the left and right of cursor
+set backspace=indent,eol,start   " Make backspace behave normally
+set matchpairs+=<:>              " Add angle brackets to match pairs
+nnoremap j gj                     " Move by visual line
+nnoremap k gk                     " Move by visual line
+" Easy window navigation
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
 
-" Show line numbers
-set number
+""" File and Buffer Handling """
+set hidden                         " Allow hidden buffers
+set autowrite                     " Auto-save before certain commands
+set noswapfile                    " Don't create swap files
+set nobackup                      " Don't create backup files
+set wildmenu                      " Enhanced command line completion
+set wildmode=list:longest         " Complete files like a shell
+set wildignore+=*.pyc,*.pyo,*/__pycache__/*  " Ignore compiled files
+set wildignore+=*.swp,~*          " Ignore swap files
 
-" Show file stats
-set ruler
-
-" Blink cursor on error instead of beeping (grr)
-set visualbell
-
-" Encoding
-set encoding=utf-8
-
-" Whitespace
-set wrap
-set textwidth=79
-set formatoptions=tcqrn1
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
-set expandtab
-set noshiftround
-
-" Cursor motion
-set scrolloff=3
-set backspace=indent,eol,start
-set matchpairs+=<:> " use % to jump between pairs
-runtime! macros/matchit.vim
-
-" Move up/down editor lines
-nnoremap j gj
-nnoremap k gk
-
-" Allow hidden buffers
-set hidden
-
-" Rendering
-set ttyfast
-
-" Status bar
-set laststatus=2
-
-" Last line
-set showmode
-set showcmd
-
-" Searching
-nnoremap / /\v
-vnoremap / /\v
-set hlsearch
-set incsearch
-set ignorecase
-set smartcase
-set showmatch
-map <leader><space> :let @/=''<cr> " clear search
-
-" Remap help key.
-inoremap <F1> <ESC>:set invfullscreen<CR>a
-nnoremap <F1> :set invfullscreen<CR>
-vnoremap <F1> :set invfullscreen<CR>
-
-" Textmate holdouts
-
-" Formatting
+""" Key Mappings """
+let mapleader = ","               " Set leader key to comma
+" Clear search highlighting with leader + space
+map <leader><space> :let @/=''<cr>
+" Toggle whitespace visualization
+map <leader>l :set list!<CR>
+" Format paragraph
 map <leader>q gqip
+" Quick save
+nmap <leader>w :w!<cr>
+" Quick quit
+nmap <leader>q :q<cr>
+" Quick save and quit
+nmap <leader>x :x<cr>
+" Reload vimrc
+map <leader>r :source ~/.vimrc<CR>
 
-" Visualize tabs and newlines
-set listchars=tab:▸\ ,eol:¬
-" Uncomment this to enable by default:
-" set list " To enable by default
-" Or use your leader key + l to toggle on/off
-map <leader>l :set list!<CR> " Toggle tabs and EOL
+""" Code Folding """
+set foldenable                    " Enable folding
+set foldlevelstart=10            " Open most folds by default
+set foldnestmax=10              " Maximum nested folds
+set foldmethod=indent           " Fold based on indentation
 
-" Color scheme (terminal)
-set t_Co=256
-set background=dark
+""" Color Scheme """
 let g:solarized_termcolors=256
 let g:solarized_termtrans=1
-" put https://raw.github.com/altercation/vim-colors-solarized/master/colors/solarized.vim
-" in ~/.vim/colors/ and uncomment:
+" To use solarized:
+" 1. Download from https://raw.github.com/altercation/vim-colors-solarized/master/colors/solarized.vim
+" 2. Place in ~/.vim/colors/
+" 3. Uncomment the next line:
 " colorscheme solarized
+
+""" Performance Settings """
+set lazyredraw                    " Don't redraw while executing macros
+set regexpengine=1               " Use old regexp engine
+set synmaxcol=200                " Only highlight first 200 columns
+
+""" Load Local Settings """
+if filereadable("/etc/vim/vimrc.local")
+    source /etc/vim/vimrc.local
+endif
