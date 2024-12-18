@@ -55,4 +55,13 @@ export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:/usr/local/go/bin
 
 # Aliases 
-# export GITHUB_TOKEN=$(gh auth token)
+
+# if command -v gh >/dev/null 2>&1; then
+#     export GITHUB_TOKEN=$(gh auth token)
+#     echo "NEW GITHUB_TOKEN set"
+# else
+#     echo "GITHUB_TOKEN is NOT set"
+# fi
+
+# Run for secret key generation
+[ -f ~/afterzsh/aliases.sh ] && source ~/afterzsh/aliases.sh
