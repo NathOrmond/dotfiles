@@ -53,3 +53,6 @@ fi
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:/usr/local/go/bin
+
+# Aliases 
+# export GITHUB_TOKEN=$(gh auth token)
