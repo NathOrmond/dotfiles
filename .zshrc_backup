@@ -1,0 +1,26 @@
+# Minimal safe .zshrc
+# Basic PATH setting
+export PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
+# Basic history settings
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt appendhistory
+
+# Basic completion system
+autoload -Uz compinit
+compinit
+
+# Basic prompt (shows username, hostname, and current directory)
+autoload -Uz promptinit
+promptinit
+PROMPT='%n@%m:%~ %# '
+
+# Basic key bindings
+bindkey -e  # Use emacs key bindings
+
+# Basic aliases
+alias ls='ls -G'
+alias ll='ls -lh'
+alias la='ls -lah'
