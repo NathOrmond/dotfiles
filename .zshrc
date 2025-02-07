@@ -70,12 +70,39 @@ else
 fi
 
 # Homebrew and Python compatibility
-if command -v brew >/dev/null 2>&1; then
-    alias brew='env PATH="${PATH//$(pyenv root)/shims:/}" brew'
+brew() {
+    local original_path="$PATH"
+    local pyenv_path=""
+    
+    # Only modify PATH if pyenv exists and works
+    if command -v pyenv >/dev/null 2>&1; then
+        pyenv_path="$(pyenv root)/shims:"
+        if [[ -n "$pyenv_path" ]]; then
+            PATH="${PATH//$pyenv_path/}"
+        fi
+    fi
+    
+    # Execute brew with fallbacks
+    if [[ -x "/opt/homebrew/bin/brew" ]]; then
+        /opt/homebrew/bin/brew "$@"
+    elif [[ -x "/usr/local/bin/brew" ]]; then
+        /usr/local/bin/brew "$@"
+    else
+        echo "Error: brew not found in expected locations" >&2
+        return 1
+    fi
+    
+    # Restore original PATH
+    PATH="$original_path"
+}
+
+# Check Homebrew availability
+if [[ -x "/opt/homebrew/bin/brew" ]] || [[ -x "/usr/local/bin/brew" ]]; then
     print_status "Homebrew" "enabled"
 else
     print_status "Homebrew" "disabled"
 fi
+
 
 # NVM Configuration
 if [ -s "/opt/homebrew/opt/nvm/nvm.sh" ]; then
