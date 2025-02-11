@@ -60,6 +60,21 @@ set matchpairs+=<:>              " Add angle brackets to match pairs
 "nnoremap j gj                     " Move by visual line
 "nnoremap k gk                     " Move by visual line
 
+" Move lines up and down with Option+Arrow keys (Mac)
+"nnoremap <silent> <M-Down> :m .+1<CR>==
+"nnoremap <silent> <M-Up> :m .-2<CR>==
+"inoremap <silent> <M-Down> <Esc>:m .+1<CR>==gi
+"inoremap <silent> <M-Up> <Esc>:m .-2<CR>==gi
+"vnoremap <silent> <M-Down> :m '>+1<CR>gv=gv
+"vnoremap <silent> <M-Up> :m '<-2<CR>gv=gv
+" Move lines up and down with Alt+j/k
+"nnoremap <A-j> :m .+1<CR>==
+"nnoremap <A-k> :m .-2<CR>==
+"inoremap <A-j> <Esc>:m .+1<CR>==gi
+"inoremap <A-k> <Esc>:m .-2<CR>==gi
+"vnoremap <A-j> :m '>+1<CR>gv=gv
+"vnoremap <A-k> :m '<-2<CR>gv=gv
+
 " Easy window navigation
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j

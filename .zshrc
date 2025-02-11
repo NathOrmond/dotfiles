@@ -127,10 +127,12 @@ else
 fi
 
 # Go Configuration
+export GOROOT=/usr/local/go
+export GOPATH=$HOME/go
+export PATH=$GOROOT/bin:$PATH:$GOPATH/bin
+
 if command -v go >/dev/null 2>&1; then
-    export GOPATH=$HOME/go
-    export PATH=$PATH:$GOPATH/bin:/usr/local/go/bin
-    print_status "Go" "enabled"
+    print_status "Go" "enabled ($(go version))"
 else
     print_status "Go" "disabled"
 fi
@@ -206,16 +208,30 @@ else
     print_status "Zinit" "disabled"
 fi
 
-# Autosuggestion configuration
-ZSH_AUTOSUGGEST_STRATEGY=(history completion)
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#999999"
-
 # Source aliases (should be last)
-if [ -f ~/afterzsh/aliases.sh ]; then
-    source ~/afterzsh/aliases.sh
+# These contain secrets and things
+export SECRETS="$HOME/afterzsh"
+alias cd-secrets="cd $SECRETS"
+
+# Source additional aliases if they exist
+if [ -f $SECRETS/aliases.sh ]; then
+    source $SECRETS/aliases.sh
     print_status "Custom Aliases" "enabled"
 else
     print_status "Custom Aliases" "disabled"
 fi
+
+# Custom Config Set Up
+export DEV="$HOME/Dev"
+export DEV_VIVACITY="$DEV/vivacity"
+
+# Directory shortcuts
+alias cdev='cd $DEV'
+alias cdev-vivacity='cd $DEV_VIVACITY'
+alias cdotfiles='cd $DEV/dotfiles'
+
+# Autosuggestion configuration
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#999999"
 
 echo "\n✨ Configuration loading complete\n"
