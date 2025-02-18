@@ -18,9 +18,7 @@ done
 config_folders=("nvim" "alacritty" "lazygit" "starship")
 for folder in "${config_folders[@]}"; do
     if [ -d "$DOTFILES/.config/$folder" ]; then
-        ln -sf "$DOTFILES/.config/$folder"
-        "$HOME/.config/$folder"
-        echo "Created symlink for
-        .config/$folder"
+        ln -sf "$DOTFILES/.config/$folder" "$HOME/.config/$folder"
+        echo "Created symlink for .config/$folder"
     fi
 done

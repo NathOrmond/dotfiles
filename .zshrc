@@ -225,6 +225,8 @@ fi
 export DEV="$HOME/Dev"
 export DEV_VIVACITY="$DEV/vivacity"
 
+alias please='sudo'
+
 # Directory shortcuts
 alias cdev='cd $DEV'
 alias cdev-vivacity='cd $DEV_VIVACITY'
