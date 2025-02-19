@@ -232,6 +232,9 @@ alias cdev='cd $DEV'
 alias cdev-vivacity='cd $DEV_VIVACITY'
 alias cdotfiles='cd $DEV/dotfiles'
 
+export NOTES="/Users/$USER/Documents/obsidian-vault"
+alias notes='cd $NOTES'
+
 # Autosuggestion configuration
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#999999"
