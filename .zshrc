@@ -231,6 +231,7 @@ alias please='sudo'
 alias cdev='cd $DEV'
 alias cdev-vivacity='cd $DEV_VIVACITY'
 alias cdotfiles='cd $DEV/dotfiles'
+alias c='clear'
 
 export NOTES="/Users/$USER/Documents/obsidian-vault"
 alias notes='cd $NOTES'
