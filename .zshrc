@@ -54,10 +54,34 @@ fi
 if command -v tmux >/dev/null 2>&1; then
     if [ "$TMUX" = "" ]; then 
         tmux
+
+        # Custom tmux alias to run tmux in all panes
+        function tmux-all() {
+          tmux list-panes -a -F "#{session_name}:#{window_index}.#{pane_index}" | 
+            while read pane; do
+              tmux send-keys -t "$pane" "$*" Enter
+            done
+        }
     fi
     print_status "Tmux" "enabled"
 else
     print_status "Tmux" "disabled"
+fi
+
+# Run a command in all tmux panes
+if command -v tmux &> /dev/null && [ -n "$TMUX" ]; then
+  function tmux-all() {
+    tmux list-panes -a -F "#{session_name}:#{window_index}.#{pane_index}" | 
+      while read pane; do
+        tmux send-keys -t "$pane" "$*" Enter
+      done
+  }
+  print_status "tmux-all" "enabled"
+else
+  function tmux-all() {
+    print_status "tmux-all" "disabled"
+    return 1
+  }
 fi
 
 # Python Environment Configuration
@@ -210,12 +234,12 @@ fi
 
 # Source aliases (should be last)
 # These contain secrets and things
-export SECRETS="$HOME/afterzsh"
-alias cd-secrets="cd $SECRETS"
+export LOCAL_SECRETS="$HOME/afterzsh"
+alias cd-secrets="cd $LOCAL_SECRETS"
 
 # Source additional aliases if they exist
-if [ -f $SECRETS/aliases.sh ]; then
-    source $SECRETS/aliases.sh
+if [ -f $LOCAL_SECRETS/aliases.sh ]; then
+    source $LOCAL_SECRETS/aliases.sh
     print_status "Custom Aliases" "enabled"
 else
     print_status "Custom Aliases" "disabled"
