@@ -50,6 +50,47 @@ else
     print_status "p10k Configuration" "disabled"
 fi
 
+
+# Enable focus tracking in terminal
+printf '\e[?1004h'
+
+# Focus change detection function
+function handle_focus_change() {
+    if [[ $1 = 'in' ]]; then
+        # Terminal gained focus - set green border
+        command tmux set -g pane-active-border-style 'fg=#a6e3a1,bg=default,bold' 2>/dev/null || true
+    else
+        # Terminal lost focus - set red border
+        command tmux set -g pane-active-border-style 'fg=#f38ba8,bg=default,bold' 2>/dev/null || true
+    fi
+}
+
+# Register focus handlers as zle widgets
+zle -N focus_gained
+zle -N focus_lost
+
+# Define the widget functions
+function focus_gained() { handle_focus_change 'in'; }
+function focus_lost() { handle_focus_change 'out'; }
+
+# Bind focus events to terminal sequences
+bindkey -M emacs '^[[I' focus_gained
+bindkey -M emacs '^[[O' focus_lost
+bindkey -M vicmd '^[[I' focus_gained
+bindkey -M vicmd '^[[O' focus_lost
+bindkey -M viins '^[[I' focus_gained
+bindkey -M viins '^[[O' focus_lost
+
+# Disable focus tracking when exiting shell
+function TRAPINT() {
+    printf '\e[?1004l'
+    return $((128 + $1))
+}
+
+# Log the configuration status
+print_status "Focus tracking" "enabled"
+
+
 # TMUX Auto-Start
 if command -v tmux >/dev/null 2>&1; then
     if [ "$TMUX" = "" ]; then 
