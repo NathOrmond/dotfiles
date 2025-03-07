@@ -297,7 +297,7 @@ alias cdev='cd $DEV'
 alias cdev-vivacity='cd $DEV_VIVACITY'
 alias cdotfiles='cd $DEV/dotfiles'
 alias c='clear'
-
+alias hgrep="history | grep"
 export NOTES="/Users/$USER/Documents/obsidian-vault"
 alias notes='cd $NOTES'
 
