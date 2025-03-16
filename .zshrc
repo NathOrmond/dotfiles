@@ -113,3 +113,4 @@ if [[ -d "$DOTFILES" ]]; then
 fi
 
 echo "\n✨ Configuration loading complete\n"
+export PATH="/root/anaconda3/bin:$PATH"

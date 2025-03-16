@@ -1,7 +1,11 @@
+# Linux-specific ZSH configuration
+echo "DEBUG: Starting Linux-specific configuration"
 #!/bin/zsh
+
 # Linux/WSL specific settings
 
-# Linux PATH additions
+# Linux-specific ZSH configuration - BEGIN
+echo "DEBUG: Starting Linux configuration"# Linux PATH additions
 export PATH=/usr/local/bin:$PATH
 
 # Check if we're in WSL
@@ -10,6 +14,23 @@ if grep -q Microsoft /proc/version; then
 else
     export IS_WSL=false
 fi
+
+# Linux clipboard aliases
+if command -v xclip &> /dev/null; then
+    alias copy="xclip -selection clipboard"
+    alias paste="xclip -selection clipboard -o"
+elif [[ "$IS_WSL" == "true" ]]; then
+    alias copy="clip.exe"
+    alias paste="powershell.exe -command 'Get-Clipboard' 2>/dev/null"
+else
+    echo "WARNING: No clipboard command found. Clipboard aliases not set."
+fi
+
+# Linux specific aliases
+alias ls="ls --color=auto"
+alias open="xdg-open"
+alias update="sudo apt-get update && sudo apt-get upgrade -y"
+alias install="sudo apt-get install -y"
 
 # Linux clipboard aliases
 if command -v xclip &> /dev/null; then
@@ -86,3 +107,4 @@ if [[ "$IS_WSL" == "true" ]]; then
     
     print_status "WSL configuration" "enabled"
 fi
+

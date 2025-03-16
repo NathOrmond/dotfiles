@@ -1,7 +1,7 @@
 # Dotfiles
 
 Nathan Ormond dotfiles env set up. 
-Should be cross-platform. Currently supprts:
+Should be cross-platform. Currently supports:
 
 - macOS 
 - Linux (WSL Ubuntu) 
@@ -41,6 +41,7 @@ The installation script will:
 - Configure your shell environment
 - Set up tmux with custom keybindings
 - Create a secrets directory at `~/afterzsh` (not tracked by git)
+- Install ZSH plugins and tmux plugins automatically
 
 ### Manual Update
 
@@ -65,19 +66,24 @@ chmod +x ./install.sh  # Ensure script is executable
 ├── zsh/                      # ZSH configurations
 │   ├── common.zsh            # Common ZSH settings
 │   ├── mac.zsh               # macOS-specific settings
-│   ├── linux.zsh             # Linux-specific settings
-│   ├── aliases.zsh           # Common aliases
-│   ├── functions.zsh         # Common functions
-│   └── plugins.zsh           # ZSH plugins configuration
+│   └── linux.zsh             # Linux-specific settings
 ├── packages/                 # Package management
-│   ├── packages.zsh          # Cross-platform package installer
-│   ├── Brewfile              # Homebrew packages for macOS
-│   └── apt-packages.txt      # APT packages for Linux
+│   └── packages.zsh          # Cross-platform package installer
+├── scripts/                  # Helper scripts
+│   ├── backup-dotfiles.sh    # Backup dotfiles
+│   ├── conda-setup.sh        # Conda installation and setup
+│   ├── debug-info.sh         # Print debugging information
+│   ├── fix-permissions.sh    # Fix script permissions
+│   ├── install-tmux-plugins.sh # Automate tmux plugin installation
+│   ├── jupyter-aliases.sh    # Jupyter notebook helpers
+│   ├── restore-commit.sh     # Restore dotfiles to a specific commit
+│   ├── setup-plugins.sh      # Install ZSH plugins
+│   └── test-dotfiles.sh      # Test dotfiles functionality
+├── backup/                   # Backup directory for original files
 ├── .zshrc                    # Main ZSH configuration (sources modular files)
 ├── .tmux.conf                # TMUX configuration
 ├── .gitconfig                # Git configuration
 ├── .vimrc                    # Vim configuration
-├── .p10k.zsh                 # Powerlevel10k configuration
 └── install.sh                # Installation script
 ```
 
@@ -90,12 +96,37 @@ settings:
 
 ```zsh
 if [[ "$(uname)" == "Darwin" ]]; then
-    export PLATFORM="mac"
-    source "$DOTFILES/zsh/mac.zsh"
-elif [[ "$(uname)" == "Linux" ]]; then
-    export PLATFORM="linux"
-    source "$DOTFILES/zsh/linux.zsh"
-fi
+        export PLATFORM="mac"
+            source "$DOTFILES/zsh/mac.zsh"
+            elif [[ "$(uname)" == "Linux" ]]; then
+                export PLATFORM="linux"
+                    source "$DOTFILES/zsh/linux.zsh"
+                    fi
+                    ```
+
+### Helper Scripts
+
+The dotfiles include a collection of helper scripts in the `scripts/` directory:
+
+- **backup-dotfiles.sh**: Creates a timestamped backup of your dotfiles
+- **conda-setup.sh**: Installs and configures Conda for your platform
+- **debug-info.sh**: Prints debugging information about your setup
+- **fix-permissions.sh**: Ensures all scripts have proper executable permissions
+- **install-tmux-plugins.sh**: Automatically installs tmux plugins without user
+  interaction
+  - **jupyter-aliases.sh**: Provides helper functions for Jupyter notebooks
+  - **restore-commit.sh**: Restores dotfiles to a specific Git commit
+  - **setup-plugins.sh**: Installs and updates ZSH plugins
+  - **test-dotfiles.sh**: Comprehensive test suite for dotfiles functionality
+
+  Run any of these scripts directly:
+
+  ```bash
+# Example: Run the test suite
+  ~/Dev/dotfiles/scripts/test-dotfiles.sh
+
+# Example: Fix permissions on all scripts
+~/Dev/dotfiles/scripts/fix-permissions.sh
 ```
 
 ### Anaconda/Conda Setup
@@ -109,7 +140,7 @@ During installation, you'll be prompted to install Conda if it's not already
 present. You can also manually run the Conda setup script:
 
 ```bash
-~/Dev/dotfiles/conda-setup.sh --install
+~/Dev/dotfiles/scripts/conda-setup.sh --install
 ```
 
 This will:
@@ -182,6 +213,7 @@ Use `copy` and `paste` commands consistently across platforms:
 
 - macOS: Uses native `pbcopy` and `pbpaste`
 - Linux: Uses `xclip` (installed automatically if missing)
+- WSL: Falls back to `clip.exe` and PowerShell for clipboard access
 
 Example usage:
 ```bash
@@ -190,6 +222,9 @@ ls -la | copy
 
 # Paste clipboard content
 paste > output.txt
+
+# Copy a string to clipboard
+echo "test string" | copy
 ```
 
 ### Package Management
@@ -240,19 +275,43 @@ notes-push         # quick command to commit and push notes
 
 The tmux configuration includes several customisations:
 
-- **Prefix**: `Ctrl+a` (instead of default `Ctrl+b`)
+- **Prefix**: `Ctrl+Space` (instead of default `Ctrl+b`)
 - **Pane Navigation**:
     - `Prefix + h/j/k/l`: Navigate panes (left/down/up/right)
-    - `Prefix + |`: Split pane vertically
-    - `Prefix + -`: Split pane horizontally
-- **Window Management**:
-    - `Prefix + c`: Create new window
-    - `Prefix + n/p`: Next/previous window
-    - `Prefix + ,`: Rename window
-- **Special Features**:
-    - Focus tracking changes pane borders (green when focused, red
-    when unfocused)
-    - `tmux-all [command]`: Run a command in all tmux panes
+        - `Prefix + "`: Split pane vertically
+            - `Prefix + %`: Split pane horizontally
+            - **Window Management**:
+                - `Prefix + c`: Create new window
+                    - `Prefix + n/p`: Next/previous window
+                        - `Prefix + ,`: Rename window
+                        - **Special Features**:
+                            - Focus tracking changes pane borders (green when
+                              focused, red
+                                  when unfocused)
+                                - `tmux-all [command]`: Run a command in all
+                                  tmux panes
+
+## Testing Your Setup
+
+The dotfiles include a comprehensive test script that verifies your setup is
+working correctly:
+
+```bash
+# Run the test script
+~/Dev/dotfiles/scripts/test-dotfiles.sh
+```
+
+This will check:
+- Directory structure and file permissions
+- Symlink configuration
+- Platform detection
+- ZSH plugins and tmux setup
+- Vim clipboard support
+- Conda installation
+- Clipboard functionality
+
+The test provides clear feedback on what's working and what might need
+attention.
 
 ## Custom Functions
 
@@ -310,47 +369,47 @@ machine-specific configurations:
 ```
 $HOME/afterzsh/          # Directory for secrets and local configurations
   ├── aliases.sh         # Machine-specific aliases
-  ├── secrets.sh         # API keys, tokens, and other secrets
-  ├── work.sh            # Work-specific settings
-  ├── jupyter-aliases.sh # Jupyter notebook helpers
-  └── ...                # Other local configuration files
-```
+    ├── secrets.sh         # API keys, tokens, and other secrets
+      ├── work.sh            # Work-specific settings
+        ├── jupyter-aliases.sh # Jupyter notebook helpers
+          └── ...                # Other local configuration files
+          ```
 
-**Key benefits of this approach:**
-    - Keeps sensitive information out of the git repository
-    - Allows for machine-specific customisations
-    - Automatically sourced by `.zshrc` at startup
+          **Key benefits of this approach:**
+          - Keeps sensitive information out of the git repository
+          - Allows for machine-specific customisations
+          - Automatically sourced by `.zshrc` at startup
 
-The main `.zshrc` sources these files at the end of its execution:
+          The main `.zshrc` sources these files at the end of its execution:
 
-```zsh
+          ```zsh
 # Source secrets and custom configurations
-export LOCAL_SECRETS="$HOME/afterzsh"
-if [[ -f "$LOCAL_SECRETS/aliases.sh" ]]; then
-    source "$LOCAL_SECRETS/aliases.sh"
-    print_status "Custom Aliases" "enabled"
-fi
-```
+          export LOCAL_SECRETS="$HOME/afterzsh"
+          if [[ -f "$LOCAL_SECRETS/aliases.sh" ]]; then
+                  source "$LOCAL_SECRETS/aliases.sh"
+                      print_status "Custom Aliases" "enabled"
+                      fi
+                      ```
 
-**Important Notes:**
-- The `install.sh` script automatically creates the
-`~/afterzsh` directory if it doesn't exist
-- It also creates a template `secrets.sh` file for you
-to add your sensitive information
-- The full path is displayed during installation so
-you know exactly where to put your secrets
-- NEVER commit the contents of the `~/afterzsh`
-directory to git
+                      **Important Notes:**
+                      - The `install.sh` script automatically creates the
+                      `~/afterzsh` directory if it doesn't exist
+                      - It also creates a template `secrets.sh` file for you
+                      to add your sensitive information
+                      - The full path is displayed during installation so
+                      you know exactly where to put your secrets
+                      - NEVER commit the contents of the `~/afterzsh`
+                      directory to git
 
-**Best practices for using afterzsh:**
-- Store API keys, tokens, and passwords in
-`secrets.sh`
-- Add machine-specific PATH adjustments in
-`aliases.sh`
-- Keep work-specific configurations separate
-in their own files
-- Use `secrets.sh` for information that
-  shouldn't be in a public repository
+                      **Best practices for using afterzsh:**
+                      - Store API keys, tokens, and passwords in
+                      `secrets.sh`
+                      - Add machine-specific PATH adjustments in
+                      `aliases.sh`
+                      - Keep work-specific configurations separate
+                      in their own files
+                      - Use `secrets.sh` for information that
+                        shouldn't be in a public repository
 
 ### Local Overrides
 
@@ -384,13 +443,13 @@ If you encounter issues during installation:
 
 1. Make sure the install script is executable:
 ```bash
-    chmod +x ~/Dev/dotfiles/install.sh
+chmod +x ~/Dev/dotfiles/install.sh
 ```
 
 2. If you get "Permission denied" errors:
 ```bash
 # Fix permissions for all scripts
-find ~/Dev/dotfiles -name "*.sh" -exec chmod +x {} \;
+~/Dev/dotfiles/scripts/fix-permissions.sh
 ```
 
 3. If you're on WSL and can't execute the script, check
@@ -446,6 +505,22 @@ If encountering permission issues in WSL:
 2. Fix ownership if needed: `sudo chown -R $USER:$USER ~/Dev/dotfiles`
 3. Fix permissions: `chmod +x ~/Dev/dotfiles/install.sh`
 
+### Debugging Your Setup
+
+If you're having issues with your dotfiles setup, run the debug info script:
+
+```bash
+~/Dev/dotfiles/scripts/debug-info.sh
+```
+
+This will provide detailed information about your configuration, including:
+- ZSH version
+- Installed plugins
+- TMux configuration
+- Platform detection
+- Defined aliases
+- Focus tracking settings
+
 ## Contributing
 
 To contribute to these dotfiles:
@@ -460,3 +535,4 @@ To contribute to these dotfiles:
 
 This project is licensed under the MIT License - see the LICENSE file for
 details.
+

@@ -1,7 +1,8 @@
 #!/bin/zsh
 # Get script directory and dotfiles root directory
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-DOTFILES_DIR="$(dirname "$SCRIPT_DIR")"  # Parent of scripts directory
+DOTFILES_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"  
+
 
 # Cross-platform Conda installation and setup
 

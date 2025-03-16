@@ -177,6 +177,15 @@ else
     echo "✅ Conda is already installed"
 fi
 
+# Install ZSH plugins and Tmux Plugin Manager
+if [ -f "$DOTFILES/scripts/setup-plugins.sh" ]; then
+    echo "🔌 Setting up ZSH plugins and Tmux Plugin Manager..."
+    chmod +x "$DOTFILES/scripts/setup-plugins.sh"
+    "$DOTFILES/scripts/setup-plugins.sh"
+else
+    echo "❌ setup-plugins.sh not found in scripts directory"
+fi
+
 # Reload tmux configuration if tmux is running
 if command -v tmux &> /dev/null && [ -n "$TMUX" ]; then
     echo "🔄 Reloading tmux configuration..."
