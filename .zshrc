@@ -300,7 +300,7 @@ alias c='clear'
 alias hgrep="history | grep"
 export NOTES="/Users/$USER/Documents/obsidian-vault"
 alias notes='cd $NOTES'
-alias notes-push='git commit -m "notes: $(date +%Y-%m-%d)" && git push'
+alias notes-push='git add . && git commit -m "notes: $(date +%Y-%m-%d)" && git push'
 
 
 # Autosuggestion configuration
