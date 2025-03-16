@@ -25,7 +25,11 @@ different operating systems. It features:
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/yourusername/dotfiles.git ~/Dev/dotfiles
+# (a) 
+git clone git@github.com:NathOrmond/dotfiles.git ~/Dev/dotfiles
+
+# (b)
+git clone https://github.com/NathOrmond/dotfiles.git ~/Dev/dotfiles
 
 # 2. Make the install script executable
 chmod +x ~/Dev/dotfiles/install.sh
