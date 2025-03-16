@@ -1,26 +1,19 @@
 [user]
-        name = nathan ormond 
-        email = nath.m.ormond@gmail.com
-
+        name = PLACEHOLDER_NAME
+        email = PLACEHOLDER_EMAIL
 [core]
         editor = vim
         excludesfile = ~/.gitignore_global
-
 [color]
         ui = auto
-
 [init]
         defaultBranch = main
-
 [pull]
         rebase = false
-
 [url "ssh://git@github.com/"]
         insteadOf = https://github.com/
-
 [push]
         default = simple
-
 [alias]
         st = status
         co = checkout

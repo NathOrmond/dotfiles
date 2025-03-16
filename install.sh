@@ -6,6 +6,27 @@ echo "🔧 Installing dotfiles from $DOTFILES..."
 # Create ~/.config if it doesn't exist
 mkdir -p ~/.config
 
+# Check and prompt for Git configuration
+echo "🔍 Checking Git configuration..."
+if grep -q "PLACEHOLDER_NAME\|PLACEHOLDER_EMAIL" "$DOTFILES/.gitconfig"; then
+    echo "📝 Git user information needs to be configured."
+    # Get user's name
+    read -p "Enter your Git username: " git_user_name
+    # Get user's email
+    read -p "Enter your Git email: " git_user_email
+    # Update Git config
+    if [ -n "$git_user_name" ] && [ -n "$git_user_email" ]; then
+        git config --global user.name
+        "$git_user_name"
+        git config --global user.email "$git_user_email"
+        echo "✅ Git user configuration updated."
+    else
+        echo "❌ Git user configuration skipped (empty input provided)."
+    fi
+else
+    echo "✅ Git user configuration already set."
+fi
+
 # Direct home directory files
 files=(".zshrc" ".tmux.conf" ".gitconfig" ".vimrc" ".bashrc" ".profile" ".p10k.zsh")
 for file in "${files[@]}"; do
