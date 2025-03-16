@@ -1,6 +1,6 @@
 [user]
-        name = PLACEHOLDER_NAME
-        email = PLACEHOLDER_EMAIL
+        name = Nathan Ormond 
+        email = nath.m.ormond@gmail.com
 [core]
         editor = vim
         excludesfile = ~/.gitignore_global

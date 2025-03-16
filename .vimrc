@@ -81,6 +81,9 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
+" shortcut to toggle paste mode with F2
+set pastetoggle=<F2>
+
 """ File and Buffer Handling """
 set hidden                         " Allow hidden buffers
 set autowrite                     " Auto-save before certain commands
