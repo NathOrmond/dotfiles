@@ -100,13 +100,13 @@ settings:
 
 ```zsh
 if [[ "$(uname)" == "Darwin" ]]; then
-        export PLATFORM="mac"
-            source "$DOTFILES/zsh/mac.zsh"
-            elif [[ "$(uname)" == "Linux" ]]; then
-                export PLATFORM="linux"
-                    source "$DOTFILES/zsh/linux.zsh"
-                    fi
-                    ```
+    export PLATFORM="mac"
+    source "$DOTFILES/zsh/mac.zsh"
+elif [[ "$(uname)" == "Linux" ]]; then
+    export PLATFORM="linux"
+    source "$DOTFILES/zsh/linux.zsh"
+fi
+```
 
 ### Helper Scripts
 
@@ -127,7 +127,7 @@ The dotfiles include a collection of helper scripts in the `scripts/` directory:
 
   ```bash
 # Example: Run the test suite
-  ~/Dev/dotfiles/scripts/test-dotfiles.sh
+~/Dev/dotfiles/scripts/test-dotfiles.sh
 
 # Example: Fix permissions on all scripts
 ~/Dev/dotfiles/scripts/fix-permissions.sh
@@ -282,18 +282,18 @@ The tmux configuration includes several customisations:
 - **Prefix**: `Ctrl+Space` (instead of default `Ctrl+b`)
 - **Pane Navigation**:
     - `Prefix + h/j/k/l`: Navigate panes (left/down/up/right)
-        - `Prefix + "`: Split pane vertically
-            - `Prefix + %`: Split pane horizontally
-            - **Window Management**:
-                - `Prefix + c`: Create new window
-                    - `Prefix + n/p`: Next/previous window
-                        - `Prefix + ,`: Rename window
-                        - **Special Features**:
-                            - Focus tracking changes pane borders (green when
-                              focused, red
-                                  when unfocused)
-                                - `tmux-all [command]`: Run a command in all
-                                  tmux panes
+    - `Prefix + "`: Split pane vertically
+    - `Prefix + %`: Split pane horizontally
+- **Window Management**:
+    - `Prefix + c`: Create new window
+    - `Prefix + n/p`: Next/previous window
+    - `Prefix + ,`: Rename window
+- **Special Features**:
+    - Focus tracking changes pane borders (green when
+    focused, red
+    when unfocused)
+    - `tmux-all [command]`: Run a command in all
+    tmux panes
 
 ## Testing Your Setup
 
@@ -373,47 +373,47 @@ machine-specific configurations:
 ```
 $HOME/afterzsh/          # Directory for secrets and local configurations
   ├── aliases.sh         # Machine-specific aliases
-    ├── secrets.sh         # API keys, tokens, and other secrets
-      ├── work.sh            # Work-specific settings
-        ├── jupyter-aliases.sh # Jupyter notebook helpers
-          └── ...                # Other local configuration files
-          ```
+  ├── secrets.sh         # API keys, tokens, and other secrets
+  ├── work.sh            # Work-specific settings
+  ├── jupyter-aliases.sh # Jupyter notebook helpers
+  └── ...                # Other local configuration files
+```
 
-          **Key benefits of this approach:**
-          - Keeps sensitive information out of the git repository
-          - Allows for machine-specific customisations
-          - Automatically sourced by `.zshrc` at startup
+**Key benefits of this approach:**
+    - Keeps sensitive information out of the git repository
+    - Allows for machine-specific customisations
+    - Automatically sourced by `.zshrc` at startup
 
-          The main `.zshrc` sources these files at the end of its execution:
+The main `.zshrc` sources these files at the end of its execution:
 
-          ```zsh
+```zsh
 # Source secrets and custom configurations
-          export LOCAL_SECRETS="$HOME/afterzsh"
-          if [[ -f "$LOCAL_SECRETS/aliases.sh" ]]; then
-                  source "$LOCAL_SECRETS/aliases.sh"
-                      print_status "Custom Aliases" "enabled"
-                      fi
-                      ```
+export LOCAL_SECRETS="$HOME/afterzsh"
+if [[ -f "$LOCAL_SECRETS/aliases.sh" ]]; then
+    source "$LOCAL_SECRETS/aliases.sh"
+    print_status "Custom Aliases" "enabled"
+fi
+```
 
-                      **Important Notes:**
-                      - The `install.sh` script automatically creates the
-                      `~/afterzsh` directory if it doesn't exist
-                      - It also creates a template `secrets.sh` file for you
-                      to add your sensitive information
-                      - The full path is displayed during installation so
-                      you know exactly where to put your secrets
-                      - NEVER commit the contents of the `~/afterzsh`
-                      directory to git
+**Important Notes:**
+    - The `install.sh` script automatically creates the
+    `~/afterzsh` directory if it doesn't exist
+    - It also creates a template `secrets.sh` file for you
+    to add your sensitive information
+    - The full path is displayed during installation so
+    you know exactly where to put your secrets
+    - NEVER commit the contents of the `~/afterzsh`
+    directory to git
 
-                      **Best practices for using afterzsh:**
-                      - Store API keys, tokens, and passwords in
-                      `secrets.sh`
-                      - Add machine-specific PATH adjustments in
-                      `aliases.sh`
-                      - Keep work-specific configurations separate
-                      in their own files
-                      - Use `secrets.sh` for information that
-                        shouldn't be in a public repository
+**Best practices for using afterzsh:**
+    - Store API keys, tokens, and passwords in
+    `secrets.sh`
+    - Add machine-specific PATH adjustments in
+    `aliases.sh`
+    - Keep work-specific configurations separate
+    in their own files
+    - Use `secrets.sh` for information that
+    shouldn't be in a public repository
 
 ### Local Overrides
 
