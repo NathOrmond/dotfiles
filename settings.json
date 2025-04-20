@@ -1,0 +1,47 @@
+{
+    // === => !== != -> 
+    "editor.fontFamily": "Fira Code",
+    // "editor.fontFamily": "asd",
+    "editor.fontLigatures": true,
+    "terminal.integrated.defaultLocation": "editor",
+    "workbench.panel.defaultLocation": "right",
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "explorer.confirmDragAndDrop": false,
+    "explorer.confirmDelete": false,
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "window.nativeTabs": true,
+    "geminicodeassist.project": "",
+    "workbench.colorTheme": "Default Dark+",
+    "workbench.colorCustomizations": {
+        "titleBar.activeBackground": "#21b143",
+        "titleBar.inactiveBackground": "#e20404",
+        "tab.activeForeground": "#f8fbf9",
+        "tab.activeBorder": "#00ff55",
+        "tab.hoverBackground": "#35556b",
+        "activityBar.background": "#1fb3d449",
+        "editorGroupHeader.tabsBackground": "#206bce",
+        "editorGroupHeader.tabsBorder": "#f1f1f1",
+        "editorLineNumber.foreground": "#ebfc02",
+        // VSCode tab olours
+        "tab.activeModifiedBorder": "#FF8C00", // Dark orange for modified active tabs
+        "tab.inactiveModifiedBorder": "#FF8C00", // Dark orange for modified inactive tabs
+        "tab.unfocusedActiveModifiedBorder": "#FF8C00", // For modified tabs in unfocused groups
+        "tab.unfocusedInactiveModifiedBorder": "#FF8C00", // For modified inactive tabs in unfocused groups
+        // Git status indicators
+        "gitDecoration.modifiedResourceForeground": "#12fefae6", // Orange text for modified files
+        "gitDecoration.untrackedResourceForeground": "#f79b07", // Black text for untracked files
+        "gitDecoration.ignoredResourceForeground": "#f79b07", // Gray for ignored files
+        "gitDecoration.stageModifiedResourceForeground": "#4CAF50",  // Material green
+        "gitDecoration.stageAddedResourceForeground": "#388E3C"      // Darker material green
+    },
+    "window.titleBarStyle": "custom",
+    "editor.lineNumbers": "relative",
+    "editor.renderFinalNewline": "on",
+    "editor.glyphMargin": true,
+    "editor.inlineSuggest.enabled": false,
+}
