@@ -248,6 +248,8 @@ export NOTES="/Users/$USER/Documents/obsidian-vault"
 alias notes='cd $NOTES'
 alias notes-push='git add . && git commit -m "notes: $(date +%Y-%m-%d)" && git push'
 
+export SSH_AUTH_SOCK=~/.1password/agent.sock
+
 
 # Autosuggestion configuration
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
