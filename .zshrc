@@ -132,6 +132,10 @@ if [[ "$PLATFORM" == "linux" ]]; then
     source $HOME/.agent-bridge.sh
     alias ssh='ssh.exe'
     alias ssh-add='ssh-add.exe'
-
+    git config --global core.sshCommand "ssh.exe"
 fi
 
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
