@@ -38,14 +38,7 @@ chmod +x ~/Dev/dotfiles/install.sh
 cd ~/Dev/dotfiles && ./install.sh
 ```
 
-The installation script will:
-- Detect your platform (macOS or Linux)
-- Create necessary symbolic links
-- Install required packages and dependencies
-- Configure your shell environment
-- Set up tmux with custom keybindings
-- Create a secrets directory at `~/afterzsh` (not tracked by git)
-- Install ZSH plugins and tmux plugins automatically
+The installation script will detect your platform, create symbolic links for the configuration files, and install necessary packages and plugins.
 
 ### Manual Update
 
@@ -140,8 +133,7 @@ The dotfiles provide automated cross-platform Conda installation:
 - **macOS**: Installs via Homebrew
 - **Linux/WSL**: Downloads and installs the latest Anaconda distribution
 
-During installation, you'll be prompted to install Conda if it's not already
-present. You can also manually run the Conda setup script:
+You can manually run the Conda setup script to install and configure it:
 
 ```bash
 ~/Dev/dotfiles/scripts/conda-setup.sh --install
@@ -397,13 +389,10 @@ fi
 
 **Important Notes:**
     - The `install.sh` script automatically creates the
-    `~/afterzsh` directory if it doesn't exist
-    - It also creates a template `secrets.sh` file for you
-    to add your sensitive information
-    - The full path is displayed during installation so
-    you know exactly where to put your secrets
+    `~/afterzsh` directory and a basic `aliases.sh` file if they don't exist.
+    - You will need to create `secrets.sh` or other files manually inside `~/afterzsh`.
     - NEVER commit the contents of the `~/afterzsh`
-    directory to git
+    directory to git.
 
 **Best practices for using afterzsh:**
     - Store API keys, tokens, and passwords in
