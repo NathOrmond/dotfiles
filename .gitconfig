@@ -1,6 +1,7 @@
 [user]
-        name = Nathan Ormond 
-        email = nath.m.ormond@gmail.com
+	name = Nathan Ormond
+	email = nath.m.ormond@gmail.com
+
 [core]
         editor = vim
         excludesfile = ~/.gitignore_global
