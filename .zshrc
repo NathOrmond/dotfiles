@@ -233,7 +233,15 @@ fi
 
 # Custom Config Set Up
 export DEV="$HOME/Dev"
-export DEV_VIVACITY="$DEV/vivacity"
+export HDS="$DEV/HDS"
+
+
+# Android SDK Configuration
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
+export PATH=$PATH:$ANDROID_HOME/emulator
+
 # 1PASS SSH agent
 export SSH_AUTH_SOCK=~/.1password/agent.sock
 alias please='sudo'
