@@ -248,7 +248,7 @@ alias please='sudo'
 
 # Directory shortcuts
 alias cdev='cd $DEV'
-alias cdev-vivacity='cd $DEV_VIVACITY'
+alias cdev-hds='cd $HDS'
 alias cdotfiles='cd $DEV/dotfiles'
 alias c='clear'
 alias hgrep="history | grep"
