@@ -1,10 +1,8 @@
 #!/bin/zsh
 
 # =========================================================
-# Section 1: Zinit Setup & Powerlevel10k Theme (MUST BE FIRST)
+# Section 1: Zinit Setup & Powerlevel10k Theme
 # =========================================================
-# This block handles Zinit installation and sets up Powerlevel10k.
-typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
 if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
     print -P "%F{33}Installing Zinit Initiative Plugin Manager..."
     command mkdir -p "$HOME/.local/share/zinit" && \
@@ -26,12 +24,30 @@ zinit light zsh-users/zsh-completions
 source ~/.p10k.zsh
 
 # =========================================================
-# Section 2: Core Configuration (No console output)
+# Section 1.1: Completion and History
 # =========================================================
-# This section contains all environment variables, aliases, and function
-# definitions that do not produce any output on their own.
+# Initialize the completion system
+autoload -Uz compinit && compinit
 
-# Helper functions for status messages
+# History configuration
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt appendhistory notify
+setopt sharehistory # Share history between all sessions
+setopt hist_expire_dups_first # Expire duplicate entries first
+setopt hist_ignore_dups # Ignore duplicate commands
+setopt hist_ignore_all_dups # Ignore all duplicate commands
+setopt hist_ignore_space # Ignore commands that start with a space
+setopt hist_find_no_dups # Don't find duplicate commands when searching
+setopt hist_save_no_dups # Don't save duplicate commands
+setopt extended_history # Add timestamps to history
+setopt inc_append_history # Append to history file immediately
+
+
+# =========================================================
+# Section 2: Core Configuration
+# =========================================================
 print_status() {
     local component=$1
     local state=$2
@@ -43,7 +59,6 @@ print_status() {
 }
 
 #check_vim_clipboard() {
-#    # Check for linux-only clipboard tools and install if needed
 #    if [[ "$(uname)" == "Linux" ]]; then
 #        if command -v vim >/dev/null 2>&1; then
 #            if ! vim --version | grep -q '+clipboard'; then
@@ -54,14 +69,21 @@ print_status() {
 #        fi
 #    fi
 #}
-
 export DOTFILES="$HOME/Dev/dotfiles"
-
-# Homebrew configuration
+if [[ "$(uname)" == "Darwin" ]]; then
+    export PLATFORM="mac"
+elif [[ "$(uname)" == "Linux" ]]; then
+    export PLATFORM="linux"
+else
+    export PLATFORM="unknown"
+fi
+# Set TERM for tmux sessions
+if [[ -n "$TMUX" ]]; then
+  export TERM="tmux-256color"
+fi
 if [[ -x "/opt/homebrew/bin/brew" ]] || [[ -x "/usr/local/bin/brew" ]]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
-
 if [ -s "/opt/homebrew/opt/nvm/nvm.sh" ]; then
     export NVM_DIR="$HOME/.nvm"
     source "/opt/homebrew/opt/nvm/nvm.sh"
@@ -116,9 +138,9 @@ alias c='clear'
 alias hgrep="history | grep"
 alias notes='cd $NOTES'
 alias notes-push='git add . && git commit -m "notes: $(date +%Y-%m-%d)" && git push'
-alias tmux='tmux new-session -A -s main zsh'
 alias copy="pbcopy"
 alias paste="pbpaste"
+alias write-secrets='$EDITOR ~/afterzsh/aliases.sh'
 export SSH_AUTH_SOCK=~/.1password/agent.sock
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#999999"
@@ -127,13 +149,6 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#999999"
 # Section 3: Status Messages (Console Output)
 # =========================================================
 echo "\n🔧 Loading configurations..."
-if [[ "$(uname)" == "Darwin" ]]; then
-    export PLATFORM="mac"
-elif [[ "$(uname)" == "Linux" ]]; then
-    export PLATFORM="linux"
-else
-    export PLATFORM="unknown"
-fi
 print_status "Platform detection ($PLATFORM)" "enabled"
 print_status "Homebrew" "enabled"
 print_status "Node Version Manager" "enabled"
@@ -175,6 +190,7 @@ if [[ -d "$DOTFILES" ]]; then
             "$DOTFILES/install.sh"
         fi
     fi
-    check_vim_clipboard
+#    check_vim_clipboard
 fi
 echo "\n✨ Configuration loading complete\n"
+export PATH="$HOME/.local/bin:$PATH"
