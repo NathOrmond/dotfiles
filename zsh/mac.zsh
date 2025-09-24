@@ -1,4 +1,3 @@
-#!/bin/zsh
 # macOS specific settings
 
 # macOS PATH additions
@@ -29,9 +28,6 @@ function install-pkg() {
 if command -v pyenv 1>/dev/null 2>&1; then
     eval "$(pyenv init -)"
     eval "$(pyenv virtualenv-init -)"
-    print_status "Python (pyenv)" "enabled"
-else
-    print_status "Python (pyenv)" "disabled"
 fi
 
 # Node Version Manager
@@ -39,32 +35,26 @@ if [[ -s "/opt/homebrew/opt/nvm/nvm.sh" ]]; then
     export NVM_DIR="$HOME/.nvm"
     source "/opt/homebrew/opt/nvm/nvm.sh"
     source "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
-    print_status "Node Version Manager" "enabled"
-else
-    print_status "Node Version Manager" "disabled"
 fi
 
 # Go configuration
-export GOROOT=/usr/local/go
-export GOPATH=$HOME/go
-export PATH=$GOROOT/bin:$PATH:$GOPATH/bin
+#export GOROOT=/opt/homebrew/bin
+#export GOPATH=/opt/homebrew/bin
+#export PATH=$GOROOT/bin:$PATH:$GOPATH/bin
 
 # Google Cloud SDK
 if [ -d "/opt/homebrew/share/google-cloud-sdk" ]; then
     source "/opt/homebrew/share/google-cloud-sdk/path.zsh.inc"
     source "/opt/homebrew/share/google-cloud-sdk/completion.zsh.inc"
-    print_status "Google Cloud SDK" "enabled"
-else
-    print_status "Google Cloud SDK" "disabled"
 fi
 
 # macOS specific tmux configuration
 if command -v tmux &> /dev/null; then
-    # Enable copy-paste integration
     if command -v reattach-to-user-namespace &> /dev/null; then
-        print_status "tmux clipboard integration" "enabled"
+        : # No action, just a check
     else
-        brew install reattach-to-user-namespace
-        print_status "tmux clipboard integration" "installed"
+        # brew install reattach-to-user-namespace
+        # It's better to install this manually so you don't get a prompt.
+        :
     fi
 fi
